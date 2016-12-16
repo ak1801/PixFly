@@ -62,13 +62,6 @@ public class DroneLaunch extends Activity implements LocationListener {
         Log.d("Latitude","status");
     }
 
-   /* Runnable run = new Runnable() {
-        @Override
-        public void run() {
-            followMeTask();
-        }
-    };*/
-
 
     private void followMeTask(){
         clientSocket = utilObj.getClientSocket();
@@ -253,7 +246,7 @@ public class DroneLaunch extends Activity implements LocationListener {
             alertbox("Gps Status!!", "Your GPS is: OFF");
         }
     }
-    /*----------Method to create an AlertBox ------------- */
+
     protected void alertbox(String title, String mymessage) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Your Device's GPS is Disable")
@@ -262,8 +255,6 @@ public class DroneLaunch extends Activity implements LocationListener {
                 .setPositiveButton("Gps On",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                // finish the current activity
-                                // AlertBoxAdvance.this.finish();
                                 Intent myIntent = new Intent(
                                         Settings.ACTION_SECURITY_SETTINGS);
                                 startActivity(myIntent);
@@ -273,7 +264,6 @@ public class DroneLaunch extends Activity implements LocationListener {
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                // cancel the dialog box
                                 dialog.cancel();
                             }
                         });
@@ -281,7 +271,6 @@ public class DroneLaunch extends Activity implements LocationListener {
         alert.show();
     }
 
-    /*----Method to Check GPS is enable or disable ----- */
     private Boolean displayGpsStatus() {
         ContentResolver contentResolver = getBaseContext()
                 .getContentResolver();
@@ -305,16 +294,10 @@ public class DroneLaunch extends Activity implements LocationListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

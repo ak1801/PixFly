@@ -13,10 +13,6 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
-
-/**
- * Created by aksmahaj on 11/20/2016.
- */
 public class GPSTracker extends Service implements LocationListener {
 
     private final Context mContext;
