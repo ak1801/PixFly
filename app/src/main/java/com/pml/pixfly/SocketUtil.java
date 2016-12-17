@@ -11,9 +11,6 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-/**
- * Created by aksmahaj on 11/20/2016.
- */
 public class SocketUtil{
     Socket clientSocket = null;
     String SERVER_URL = "10.10.10.15";
