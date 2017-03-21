@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 
 public class SocketUtil{
     Socket clientSocket = null;
-    String SERVER_URL = "10.10.10.15";
+    String SERVER_URL = "169.254.114.33";
     int SERVER_PORT = 7858;
 
     public Socket getClientSocket() {

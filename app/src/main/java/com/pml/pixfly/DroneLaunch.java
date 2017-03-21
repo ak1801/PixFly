@@ -25,6 +25,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 public class DroneLaunch extends Activity implements LocationListener {
 
     Socket clientSocket;
@@ -34,7 +37,8 @@ public class DroneLaunch extends Activity implements LocationListener {
     protected LocationManager locationManager;
     protected LocationListener locationListener;
     String provider;
-    protected double latitude,longitude;
+    protected Double latitude=0.0;
+    protected Double longitude=0.0;
     protected boolean gps_enabled,network_enabled;
     protected SocketUtil utilObj;
     public static boolean enableFollowMe = false;
@@ -102,6 +106,10 @@ public class DroneLaunch extends Activity implements LocationListener {
                                         if (serverResp.equals("200")) {
                                             Context context = getApplicationContext();
                                             CharSequence text = "Task Complete!";
+
+                                            String gps_coordinates = latitude.toString()+","+longitude.toString();
+                                            FileOperationsUtil.writeToFile(getBaseContext(), gps_coordinates, Constants.TRACE_ME_FILE);
+
                                             int duration = Toast.LENGTH_SHORT;
                                             Toast toast = Toast.makeText(context, text, duration);
                                             toast.show();
@@ -123,12 +131,12 @@ public class DroneLaunch extends Activity implements LocationListener {
                                 e.printStackTrace();
                             }
                             if(enableFollowMe) {
-                                hand.postDelayed(this, 5000);
+                                hand.postDelayed(this, 1000);
                             } else {
                                 hand.removeCallbacks(this);
                             }
                         }
-                    }, 5000);
+                    }, 1000);
 
                 /*Integer count = 0;
 
@@ -158,6 +166,35 @@ public class DroneLaunch extends Activity implements LocationListener {
                         } while (count<2);
                     }
                 }).start();*/
+            }
+        });
+
+        Button btnTracePath = (Button) findViewById(R.id.trace_path);
+        btnTracePath.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                enableFollowMe = false;
+                Double[] __coordinate = new Double[2];
+                ArrayList<String> coordinatesList = FileOperationsUtil.readFromFile(getBaseContext(), Constants.TRACE_ME_FILE);
+                if ((coordinatesList != null) && (coordinatesList.size() != 0)) {
+                    for (String coordinate : coordinatesList) {
+                        String[] _coordinate = coordinate.split(",");
+                        for(int i = 0; i < _coordinate.length; i++)
+                        {
+                            __coordinate[i] = Double.parseDouble(_coordinate[i]);
+                        }
+                        String request = utilObj.createRequest(DroneCodes.GOTO, DroneCodes.MODE.GUIDED, __coordinate[0], __coordinate[1]);
+                        execute(request);
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(1000);
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    //showToast("Reports are empty!");
+                }
+
             }
         });
 

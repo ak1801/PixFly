@@ -43,7 +43,9 @@ public class MainActivity extends ActionBarActivity {
                     DataOutputStream os = null;
                     DataInputStream is = null;
                     SocketUtil utilObj = new SocketUtil();
-
+                    /*Context context = getApplicationContext();
+                    Intent intent = new Intent(context, DroneLaunch.class);
+                    startActivity(intent);*/
                     try {
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);
