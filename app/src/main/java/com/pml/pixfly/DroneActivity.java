@@ -95,10 +95,14 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
 
-                if (id == R.id.nav_stream) {
-                    Intent myIntent = new Intent(DroneActivity.this,
+                if(id == R.id.nav_missions) {
+                    Intent missionsIntent = new Intent(DroneActivity.this, ViewMissionsActivity.class);
+                    startActivity(missionsIntent);
+                }
+                else if (id == R.id.nav_stream) {
+                    Intent streamIntent = new Intent(DroneActivity.this,
                             StreamingActivity.class);
-                    startActivity(myIntent);
+                    startActivity(streamIntent);
                 }
                 else if (id == R.id.nav_preferences) {
                     // Handle the preference  action
@@ -139,7 +143,7 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
                             follow_me.setMission_name(Constants.FOLLOW_ME);
                             follow_me.setLatitude(latitude);
                             follow_me.setLongitude(longitude);
-                            follow_me.setLaunch_date(new Date());
+                            follow_me.setLaunch_date(new Date().toString());
 
                             try {
                                 clientSocket = utilObj.getClientSocket();
@@ -155,7 +159,7 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
                                             CharSequence text = "Task Complete!";
 
                                             //String gps_coordinates = latitude.toString()+","+longitude.toString();
-                                            FileOperationsUtil.writeToFile(getBaseContext(), follow_me.toString(), Constants.MISSIONS);
+                                            FileOperationsUtil.writeToFile(getBaseContext(), follow_me.toString(), Constants.MISSIONS, getBaseContext().MODE_APPEND);
 
                                             int duration = Toast.LENGTH_SHORT;
                                             Toast toast = Toast.makeText(context, text, duration);

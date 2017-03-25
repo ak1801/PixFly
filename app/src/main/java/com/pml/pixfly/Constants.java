@@ -14,4 +14,5 @@ public interface Constants {
     int DEFAULT_DELAY = 1000; //milliseconds
     public static final String TRACE_ME_FILE = "pixfly_trace.txt";
     public static final String MISSIONS = "pixfly_mission.txt";
+    public static final String DUMMY = "dummyData.txt";
 }

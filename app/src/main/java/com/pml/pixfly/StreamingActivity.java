@@ -47,7 +47,16 @@ public class StreamingActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
 
-                if (id == R.id.nav_stream) {
+                if(id == R.id.nav_missions) {
+                    Intent missionsIntent = new Intent(StreamingActivity.this, ViewMissionsActivity.class);
+                    startActivity(missionsIntent);
+                }
+                else if (id == R.id.nav_missions) {
+                    Intent streamIntent = new Intent(StreamingActivity.this,
+                            StreamingActivity.class);
+                    startActivity(streamIntent);
+                }
+                else if (id == R.id.nav_stream) {
                     Intent myIntent = new Intent(StreamingActivity.this,
                             StreamingActivity.class);
                     startActivity(myIntent);

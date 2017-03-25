@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_map" android:icon="@android:drawable/ic_menu_mylocation"
+            android:title="View Map" />
+        <item android:id="@+id/nav_missions" android:icon="@android:drawable/ic_dialog_map"
+            android:title="View Missions" />
         <item android:id="@+id/nav_stream" android:icon="@android:drawable/ic_menu_camera"
             android:title="Live Streaming" />
         <item android:id="@+id/nav_preferences" android:icon="@android:drawable/ic_menu_preferences"

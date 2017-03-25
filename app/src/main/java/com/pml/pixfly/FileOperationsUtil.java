@@ -61,12 +61,12 @@ public class FileOperationsUtil {
     /*
     Saves data to a File
      */
-    public static void writeToFile(Context context, String txt, String file) {
+    public static void writeToFile(Context context, String txt, String file, int mode) {
         Toast.makeText(context, txt,
                 Toast.LENGTH_SHORT).show();
 
         try {
-            FileOutputStream fileOutput = context.openFileOutput(file, context.MODE_APPEND);
+            FileOutputStream fileOutput = context.openFileOutput(file, mode);
             BufferedWriter outputWriter = new BufferedWriter(new OutputStreamWriter(fileOutput));
             //OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
             //comma , split string tags

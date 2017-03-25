@@ -7,10 +7,10 @@ import java.util.Date;
  */
 public class Mission {
     private String mission_name;
-    private Date launch_date;
+    private String launch_date;
     private Double latitude;
     private Double longitude;
-    private Double altitude;
+    //private Double altitude;
 
     public String getMission_name() {
         return mission_name;
@@ -20,11 +20,11 @@ public class Mission {
         this.mission_name = mission_name;
     }
 
-    public Date getLaunch_date() {
+    public String getLaunch_date() {
         return launch_date;
     }
 
-    public void setLaunch_date(Date launch_date) {
+    public void setLaunch_date(String launch_date) {
         this.launch_date = launch_date;
     }
 
@@ -44,13 +44,13 @@ public class Mission {
         this.longitude = longitude;
     }
 
-    public Double getAltitude() {
+    /*public Double getAltitude() {
         return altitude;
     }
 
     public void setAltitude(Double altitude) {
         this.altitude = altitude;
-    }
+    }*/
 
     public String toString(){
         return mission_name+":"+launch_date.toString()+";"+latitude.toString()+","+longitude.toString();

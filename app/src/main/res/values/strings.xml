@@ -26,5 +26,8 @@
     <string name="title_activity_streaming">StreamingActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_view_missions">ViewMissionsActivity</string>
+    <string name="title_activity_gpsplotting">GPSPlottingActivity</string>
+    <string name="title_activity_plot_mission">PlotMissionActivity</string>
 
 </resources>

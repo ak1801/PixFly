@@ -25,15 +25,15 @@ android:fitsSystemWindows="true" tools:openDrawer="start">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/webView1"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            />
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/missionsListView"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 </LinearLayout>
 
-<android.support.design.widget.NavigationView android:id="@+id/nav_view_stream"
+<android.support.design.widget.NavigationView android:id="@+id/nav_view"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="start"
@@ -42,19 +42,3 @@ android:fitsSystemWindows="true" tools:openDrawer="start">
     app:menu="@menu/activity_main_drawer" />
 
 </android.support.v4.widget.DrawerLayout>
-
-
-
-<!--
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="fill_parent"
-android:layout_height="fill_parent" >
-
-<WebView  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/webView1"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    />
-
-</RelativeLayout>-->
