@@ -11,16 +11,21 @@
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme" >
         <activity
-            android:name="com.pml.pixfly.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
+            android:theme="@style/MyMaterialTheme.No"
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.pml.pixfly.DroneLaunch"
+            android:name=".DroneLaunch"
             android:label="@string/title_activity_drone_launch" >
+        </activity>
+        <activity
+            android:name=".StreamingActivity"
+            android:label="@string/title_activity_streaming" >
         </activity>
     </application>
 
