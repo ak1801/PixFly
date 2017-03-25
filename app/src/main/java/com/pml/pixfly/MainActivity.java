@@ -8,7 +8,6 @@ import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -37,6 +36,83 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        displayNav();
+
+        if(displayGpsStatus()) {
+
+            final ImageView imgbtn = (ImageView) findViewById(R.id.drone);
+            imgbtn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    imgbtn.setImageResource(R.drawable.drone_launching);
+                    imgbtn.setEnabled(false);
+
+                    Socket clientSocket = null;
+                    DataOutputStream os = null;
+                    DataInputStream is = null;
+                    SocketUtil utilObj = new SocketUtil();
+                    /*Context context = getApplicationContext();
+                    Intent intent = new Intent(context, DroneActivity.class);
+                    startActivity(intent);*/
+                    try {
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+                        clientSocket = utilObj.getClientSocket();
+                        os = new DataOutputStream(clientSocket.getOutputStream());
+                        is = new DataInputStream(clientSocket.getInputStream());
+
+                        Payload payload = new Payload();
+                        payload.setCommand(Constants.LAUNCH);
+                        payload.setMode(Constants.MODE.GUIDED);
+                        payload.setAlt(5.0);
+                        Gson gson = new Gson();
+                        String str = gson.toJson(payload);
+                        Log.i("Gson String : ", str);
+                        os.writeBytes(str.length() + "|");
+                        os.writeBytes(str);
+
+                        clientSocket.shutdownOutput();
+                        if (clientSocket != null && is != null) {
+
+                            String serverResp = utilObj.getResponse(is);
+                            if (serverResp.equals("200")) {
+
+                                Context context = getApplicationContext();
+                                CharSequence text = "Launch Complete!";
+                                int duration = Toast.LENGTH_SHORT;
+
+                                Toast toast = Toast.makeText(context, text, duration);
+                                toast.show();
+
+                                os.close();
+                                is.close();
+                                clientSocket.close();
+
+                                //imgbtn.setImageResource(R.drawable.drone);
+                                /*Intent intent = new Intent(context, DroneActivity.class);
+                                startActivity(intent);*/
+                            }
+                        }
+
+
+                    } catch (UnknownHostException ue) {
+                        System.err.println("Don't know about host: hostname");
+                    } catch (IOException e) {
+                        System.err.println("Couldn't get I/O for the connection to: hostname");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        Intent intent = new Intent(getApplicationContext(), DroneActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+        }
+        else {
+            alertbox("Gps Status!!", "Your GPS is: OFF");
+        }
+    }
+
+    private void displayNav(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -68,78 +144,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-        if(displayGpsStatus()) {
-
-            final ImageView imgbtn = (ImageView) findViewById(R.id.drone);
-            imgbtn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    imgbtn.setImageResource(R.drawable.drone_launching);
-                    imgbtn.setEnabled(false);
-
-                    Socket clientSocket = null;
-                    DataOutputStream os = null;
-                    DataInputStream is = null;
-                    SocketUtil utilObj = new SocketUtil();
-                    /*Context context = getApplicationContext();
-                    Intent intent = new Intent(context, DroneLaunch.class);
-                    startActivity(intent);*/
-                    try {
-                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                        StrictMode.setThreadPolicy(policy);
-                        clientSocket = utilObj.getClientSocket();
-                        os = new DataOutputStream(clientSocket.getOutputStream());
-                        is = new DataInputStream(clientSocket.getInputStream());
-
-                        Payload payload = new Payload();
-                        payload.setCommand(DroneCodes.LAUNCH);
-                        payload.setMode(DroneCodes.MODE.GUIDED);
-                        payload.setAlt(5.0);
-                        Gson gson = new Gson();
-                        String str = gson.toJson(payload);
-                        Log.i("Gson String : ", str);
-                        os.writeBytes(str.length() + "|");
-                        os.writeBytes(str);
-
-                        clientSocket.shutdownOutput();
-                        if (clientSocket != null && is != null) {
-
-                            String serverResp = utilObj.getResponse(is);
-                            if (serverResp.equals("200")) {
-
-                                Context context = getApplicationContext();
-                                CharSequence text = "Launch Complete!";
-                                int duration = Toast.LENGTH_SHORT;
-
-                                Toast toast = Toast.makeText(context, text, duration);
-                                toast.show();
-
-                                os.close();
-                                is.close();
-                                clientSocket.close();
-
-                                //imgbtn.setImageResource(R.drawable.drone);
-                                Intent intent = new Intent(context, DroneLaunch.class);
-                                startActivity(intent);
-                            }
-                        }
-
-
-                    } catch (UnknownHostException ue) {
-                        System.err.println("Don't know about host: hostname");
-                    } catch (IOException e) {
-                        System.err.println("Couldn't get I/O for the connection to: hostname");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-
-                    }
-                }
-            });
-        }
-        else {
-            alertbox("Gps Status!!", "Your GPS is: OFF");
-        }
     }
 
     @Override

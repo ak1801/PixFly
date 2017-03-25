@@ -43,7 +43,7 @@ public class SocketUtil{
         return serverResp;
     }
 
-    public String createRequest(String cmd, DroneCodes.MODE mode, double latitude, double longitude) {
+    public String createRequest(String cmd, Constants.MODE mode, double latitude, double longitude) {
         Payload payload = new Payload();
         payload.setCommand(cmd);
         payload.setMode(mode);

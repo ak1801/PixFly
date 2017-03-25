@@ -1,6 +1,5 @@
 package com.pml.pixfly;
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,7 +10,13 @@ import android.location.LocationManager;
 import android.os.Handler;
 import android.provider.Settings;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +33,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class DroneLaunch extends Activity implements LocationListener {
+public class DroneActivity extends AppCompatActivity implements LocationListener {
 
     Socket clientSocket;
     GPSTracker gps;
@@ -69,8 +74,42 @@ public class DroneLaunch extends Activity implements LocationListener {
 
     private void followMeTask(){
         clientSocket = utilObj.getClientSocket();
-        String request = utilObj.createRequest(DroneCodes.FOLLOW_ME, DroneCodes.MODE.GUIDED, latitude, longitude);
+        String request = utilObj.createRequest(Constants.FOLLOW_ME, Constants.MODE.GUIDED, latitude, longitude);
         execute(request);
+    }
+
+    private void displayNav(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                int id = item.getItemId();
+
+                if (id == R.id.nav_stream) {
+                    Intent myIntent = new Intent(DroneActivity.this,
+                            StreamingActivity.class);
+                    startActivity(myIntent);
+                }
+                else if (id == R.id.nav_preferences) {
+                    // Handle the preference  action
+                } else if (id == R.id.nav_about) {
+                    // Handle the About action
+                }
+
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -92,7 +131,7 @@ public class DroneLaunch extends Activity implements LocationListener {
                 hand.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            String request = utilObj.createRequest(DroneCodes.FOLLOW_ME, DroneCodes.MODE.GUIDED, latitude, longitude);
+                            String request = utilObj.createRequest(Constants.FOLLOW_ME, Constants.MODE.GUIDED, latitude, longitude);
 
                             try {
                                 clientSocket = utilObj.getClientSocket();
@@ -183,7 +222,7 @@ public class DroneLaunch extends Activity implements LocationListener {
                         {
                             __coordinate[i] = Double.parseDouble(_coordinate[i]);
                         }
-                        String request = utilObj.createRequest(DroneCodes.GOTO, DroneCodes.MODE.GUIDED, __coordinate[0], __coordinate[1]);
+                        String request = utilObj.createRequest(Constants.GOTO, Constants.MODE.GUIDED, __coordinate[0], __coordinate[1]);
                         execute(request);
                         try {
                             TimeUnit.MILLISECONDS.sleep(1000);
@@ -203,7 +242,7 @@ public class DroneLaunch extends Activity implements LocationListener {
             @Override
             public void onClick(View view) {
                 enableFollowMe = false;
-                String request = utilObj.createRequest(DroneCodes.GOTO, DroneCodes.MODE.GUIDED, latitude, longitude);
+                String request = utilObj.createRequest(Constants.GOTO, Constants.MODE.GUIDED, latitude, longitude);
                 execute(request);
             }
         });
@@ -213,7 +252,7 @@ public class DroneLaunch extends Activity implements LocationListener {
             @Override
             public void onClick(View view) {
                 enableFollowMe = false;
-                String request = utilObj.createRequest(DroneCodes.LAND, DroneCodes.MODE.GUIDED, latitude, longitude);
+                String request = utilObj.createRequest(Constants.LAND, Constants.MODE.GUIDED, latitude, longitude);
                 execute(request);
             }
         });
@@ -234,7 +273,7 @@ public class DroneLaunch extends Activity implements LocationListener {
     private void execute(String request) {
 
         if(displayGpsStatus()) {
-            gps = new GPSTracker(DroneLaunch.this);
+            gps = new GPSTracker(DroneActivity.this);
 
             // Check if GPS enabled
             if(gps.canGetLocation()) {
@@ -337,6 +376,16 @@ public class DroneLaunch extends Activity implements LocationListener {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
 
 /*----------Listener class to get coordinates ------------- */
@@ -386,7 +435,7 @@ public class DroneLaunch extends Activity implements LocationListener {
                     new WorkerRunnable(
                             clientSocket, request)
             ).start();
-        } while (DroneLaunch.enableFollowMe);
+        } while (DroneActivity.enableFollowMe);
         return "";
     }
 }*/

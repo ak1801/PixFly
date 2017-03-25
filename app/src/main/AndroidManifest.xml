@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DroneLaunch"
+            android:name=".DroneActivity"
             android:label="@string/title_activity_drone_launch" >
         </activity>
         <activity

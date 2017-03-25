@@ -5,7 +5,7 @@ package com.pml.pixfly;
  */
 public class Payload {
     private String command = null;
-    private DroneCodes.MODE mode = null;
+    private Constants.MODE mode = null;
     private double lat = 0.0;
     private double lon = 0.0;
     private double alt = 0.0;
@@ -18,11 +18,11 @@ public class Payload {
         this.command = command;
     }
 
-    public DroneCodes.MODE getMode() {
+    public Constants.MODE getMode() {
         return mode;
     }
 
-    public void setMode(DroneCodes.MODE mode) {
+    public void setMode(Constants.MODE mode) {
         this.mode = mode;
     }
 
