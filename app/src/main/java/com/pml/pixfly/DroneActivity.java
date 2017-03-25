@@ -31,6 +31,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class DroneActivity extends AppCompatActivity implements LocationListener {
@@ -132,6 +133,13 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
                         @Override
                         public void run() {
                             String request = utilObj.createRequest(Constants.FOLLOW_ME, Constants.MODE.GUIDED, latitude, longitude);
+                            //String mission = Constants.FOLLOW_ME+":"+new Date().toString();
+
+                            Mission follow_me = new Mission();
+                            follow_me.setMission_name(Constants.FOLLOW_ME);
+                            follow_me.setLatitude(latitude);
+                            follow_me.setLongitude(longitude);
+                            follow_me.setLaunch_date(new Date());
 
                             try {
                                 clientSocket = utilObj.getClientSocket();
@@ -146,8 +154,8 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
                                             Context context = getApplicationContext();
                                             CharSequence text = "Task Complete!";
 
-                                            String gps_coordinates = latitude.toString()+","+longitude.toString();
-                                            FileOperationsUtil.writeToFile(getBaseContext(), gps_coordinates, Constants.TRACE_ME_FILE);
+                                            //String gps_coordinates = latitude.toString()+","+longitude.toString();
+                                            FileOperationsUtil.writeToFile(getBaseContext(), follow_me.toString(), Constants.MISSIONS);
 
                                             int duration = Toast.LENGTH_SHORT;
                                             Toast toast = Toast.makeText(context, text, duration);
