@@ -19,15 +19,15 @@
     <string name="title_messages">Messages</string>
     <string name="title_friends">Friends</string>
     <string name="title_home">Home</string>
-    <string name="title_activity_drone_launch">drone_launch</string>
+    <string name="title_activity_drone_launch">Drone Launch</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_streaming">StreamingActivity</string>
+    <string name="title_activity_streaming">Live Streaming</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_view_missions">ViewMissionsActivity</string>
-    <string name="title_activity_gpsplotting">GPSPlottingActivity</string>
-    <string name="title_activity_plot_mission">PlotMissionActivity</string>
+    <string name="title_activity_view_missions">View Missions</string>
+    <string name="title_activity_gpsplotting">Mission Map</string>
+    <string name="title_activity_plot_mission">Mission Plot</string>
 
 </resources>

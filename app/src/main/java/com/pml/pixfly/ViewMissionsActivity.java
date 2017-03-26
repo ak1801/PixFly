@@ -11,9 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,9 +38,7 @@ public class ViewMissionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_missions);
-
         displayNav();
-
         missionsListView = (ListView) findViewById(R.id.missionsListView);
         missionsArrayList = new ArrayList<String>();
 
@@ -45,22 +47,39 @@ public class ViewMissionsActivity extends AppCompatActivity {
 
         //Read missions from file
         FileOperationsUtil util = new FileOperationsUtil();
-        ArrayList<String> missionList = util.readFromFile(getApplicationContext(), Constants.DUMMY);
+        ArrayList<String> missionList = util.readFromFile(getApplicationContext(), Constants.MISSIONS);
 
-        missionMap = new ConcurrentHashMap<String, ArrayList<Mission>>();
+        if(missionList!=null) {
+            missionMap = new ConcurrentHashMap<String, ArrayList<Mission>>();
 
-        for(String missionRow : missionList) {
-            String missionName = getMissionName(missionRow);
-            if(missionMap.containsKey(missionName)) {
-               missionMap.get(missionName).add(getMission(missionRow));
-            } else {
-               ArrayList<Mission> newMissionList = new ArrayList<Mission>();
-               missionMap.put(missionName, newMissionList);
+            for(String missionRow : missionList) {
+                String missionName = getMissionName(missionRow);
+                if(missionMap.containsKey(missionName)) {
+                    missionMap.get(missionName).add(getMission(missionRow));
+                } else {
+                    ArrayList<Mission> newMissionList = new ArrayList<Mission>();
+                    missionMap.put(missionName, newMissionList);
+                }
             }
-        }
 
-        for(Map.Entry<String, ArrayList<Mission>> entry : missionMap.entrySet()) {
-            missionsArrayList.add(entry.getKey());
+            for(Map.Entry<String, ArrayList<Mission>> entry : missionMap.entrySet()) {
+                missionsArrayList.add(entry.getKey());
+            }
+
+            missionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position,
+                                        long id) {
+                    String mission = ((TextView) view).getText().toString();
+                    Toast.makeText(getBaseContext(), mission, Toast.LENGTH_LONG).show();
+
+                    Intent plotIntent = new Intent(ViewMissionsActivity.this, PlotMissionActivity.class);
+
+                    //plotIntent.putExtra("Key", missionMap.get(mission));
+                    plotIntent.putExtra("mission", (ArrayList<Mission>) missionMap.get(mission));
+                    startActivity(plotIntent);
+                }
+            });
         }
     }
 
@@ -117,7 +136,11 @@ public class ViewMissionsActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
 
-                if(id == R.id.nav_missions) {
+                if(id == R.id.nav_location) {
+                    Intent missionsIntent = new Intent(ViewMissionsActivity.this, MyLocationActivity.class);
+                    startActivity(missionsIntent);
+                }
+                else if(id == R.id.nav_missions) {
                     Intent missionsIntent = new Intent(ViewMissionsActivity.this, ViewMissionsActivity.class);
                     startActivity(missionsIntent);
                 }

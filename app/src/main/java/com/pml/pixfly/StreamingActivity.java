@@ -26,6 +26,7 @@ public class StreamingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_streaming);
+        displayNav();
         webView = (WebView) findViewById(R.id.webView1);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(StreamURL);
@@ -47,7 +48,11 @@ public class StreamingActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
 
-                if(id == R.id.nav_missions) {
+                if(id == R.id.nav_location) {
+                    Intent locationIntent = new Intent(StreamingActivity.this, MyLocationActivity.class);
+                    startActivity(locationIntent);
+                }
+                else if(id == R.id.nav_missions) {
                     Intent missionsIntent = new Intent(StreamingActivity.this, ViewMissionsActivity.class);
                     startActivity(missionsIntent);
                 }

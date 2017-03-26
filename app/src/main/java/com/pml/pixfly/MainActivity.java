@@ -29,7 +29,6 @@ import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
                     DataInputStream is = null;
                     SocketUtil utilObj = new SocketUtil();
                     /*Context context = getApplicationContext();
-                    Intent intent = new Intent(context, DroneActivity.class);
-                    startActivity(intent);*/
+                    Intent intent = new Intent(context,DroneActivity.class);
+                    startActivity(intent)*/;
                     try {
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);
@@ -91,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
                                 clientSocket.close();
 
                                 //imgbtn.setImageResource(R.drawable.drone);
-                                /*Intent intent = new Intent(context, DroneActivity.class);
-                                startActivity(intent);*/
+                                Intent intent = new Intent(context, DroneActivity.class);
+                                startActivity(intent);
                             }
                         }
 
@@ -104,8 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
-                        Intent intent = new Intent(getApplicationContext(), DroneActivity.class);
-                        startActivity(intent);
+
                     }
                 }
             });
@@ -117,14 +115,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void seedFile() {
         Date date = new Date();
-        for(int i=0; i<4; i++) {
-            String mission = Constants.FOLLOW_ME+";"+date.toString()+";"+"12.93672313;77.69590919";
-            FileOperationsUtil.writeToFile(getApplicationContext(), mission, Constants.DUMMY, getApplicationContext().MODE_APPEND);
+        String mission0 = Constants.FOLLOW_ME+";"+date.toString()+";"+"12.93530426;77.69615321";
+        FileOperationsUtil.writeToFile(getApplicationContext(), mission0, Constants.DUMMY, getApplicationContext().MODE_APPEND);
 
-            if(i==1) {
-                date = new Date();
-            }
-        }
+        String mission1 = Constants.FOLLOW_ME+";"+date.toString()+";"+"12.93532449;77.69617006";
+        FileOperationsUtil.writeToFile(getApplicationContext(), mission1, Constants.DUMMY, getApplicationContext().MODE_APPEND);
+
+        String mission2 = Constants.FOLLOW_ME+";"+date.toString()+";"+"12.93531365;77.6962003";
+        FileOperationsUtil.writeToFile(getApplicationContext(), mission2, Constants.DUMMY, getApplicationContext().MODE_APPEND);
+
+        String mission3 = Constants.FOLLOW_ME+";"+date.toString()+";"+"12.9353287;77.69617836";
+        FileOperationsUtil.writeToFile(getApplicationContext(), mission3, Constants.DUMMY, getApplicationContext().MODE_APPEND);
     }
 
     private void displayNav(){
@@ -143,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
 
-                if(id == R.id.nav_map) {
-                    Intent missionsIntent = new Intent(MainActivity.this, PlotMissionActivity.class);
+                if(id == R.id.nav_location) {
+                    Intent missionsIntent = new Intent(MainActivity.this, MyLocationActivity.class);
                     startActivity(missionsIntent);
                 }
                 else if(id == R.id.nav_missions) {

@@ -1,11 +1,15 @@
 package com.pml.pixfly;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by aksmahaj on 3/25/2017.
  */
-public class Mission {
+public class Mission implements Serializable{
+
+    private static final long serialVersionUID = 0L;
+
     private String mission_name;
     private String launch_date;
     private Double latitude;

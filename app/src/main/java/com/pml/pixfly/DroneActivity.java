@@ -95,7 +95,11 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
 
-                if(id == R.id.nav_missions) {
+                if(id == R.id.nav_location) {
+                    Intent missionsIntent = new Intent(DroneActivity.this, MyLocationActivity.class);
+                    startActivity(missionsIntent);
+                }
+                else if(id == R.id.nav_missions) {
                     Intent missionsIntent = new Intent(DroneActivity.this, ViewMissionsActivity.class);
                     startActivity(missionsIntent);
                 }
