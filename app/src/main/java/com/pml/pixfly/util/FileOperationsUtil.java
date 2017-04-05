@@ -1,4 +1,4 @@
-package com.pml.pixfly;
+package com.pml.pixfly.util;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -68,8 +68,6 @@ public class FileOperationsUtil {
         try {
             FileOutputStream fileOutput = context.openFileOutput(file, mode);
             BufferedWriter outputWriter = new BufferedWriter(new OutputStreamWriter(fileOutput));
-            //OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
-            //comma , split string tags
 
             outputWriter.write(txt);
             outputWriter.newLine();

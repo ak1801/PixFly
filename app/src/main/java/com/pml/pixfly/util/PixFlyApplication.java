@@ -1,8 +1,10 @@
-package com.pml.pixfly;
+package com.pml.pixfly.util;
 
 import android.app.Application;
 
 /**
+ * Class to add global variables.
+ *
  * Created by aksmahaj on 3/25/2017.
  */
 public class PixFlyApplication extends Application {

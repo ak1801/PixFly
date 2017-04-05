@@ -1,4 +1,4 @@
-package com.pml.pixfly;
+package com.pml.pixfly.bean;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -57,6 +57,6 @@ public class Mission implements Serializable{
     }*/
 
     public String toString(){
-        return mission_name+":"+launch_date.toString()+";"+latitude.toString()+","+longitude.toString();
+        return mission_name+";"+launch_date.toString()+";"+latitude.toString()+";"+longitude.toString();
     }
 }

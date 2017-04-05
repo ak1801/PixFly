@@ -1,17 +1,17 @@
-package com.pml.pixfly;
+package com.pml.pixfly.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.webkit.WebView;
 
 import com.pml.pixfly.R;
@@ -21,7 +21,7 @@ public class StreamingActivity extends AppCompatActivity {
     WebView webView;
     //String StreamURL = "http://www.androidbegin.com/tutorial/AndroidCommercial.3gp";
     String StreamURL = "http://169.254.114.33:9090/stream";
-
+    //String StreamURL = "http://trackfield.webcam.oregonstate.edu/axis-cgi/mjpg/video.cgi";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +29,17 @@ public class StreamingActivity extends AppCompatActivity {
         displayNav();
         webView = (WebView) findViewById(R.id.webView1);
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.setPadding(0, 0, 0, 0);
+        webView.setInitialScale(getScale());
         webView.loadUrl(StreamURL);
+    }
+
+    private int getScale(){
+        Display display = ((WindowManager) getSystemService(getApplicationContext().WINDOW_SERVICE)).getDefaultDisplay();
+        int width = display.getWidth();
+        Double val = new Double(width)/new Double(640);
+        val = val * 100d;
+        return val.intValue();
     }
 
     private void displayNav(){

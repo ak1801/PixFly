@@ -1,4 +1,6 @@
-package com.pml.pixfly;
+package com.pml.pixfly.bean;
+
+import com.pml.pixfly.common.Constants;
 
 /**
  * Created by aksmahaj on 11/20/2016.

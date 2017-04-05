@@ -1,4 +1,4 @@
-package com.pml.pixfly;
+package com.pml.pixfly.activity;
 
 import android.app.Service;
 import android.content.Context;
@@ -13,7 +13,7 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
-public class GPSTracker extends Service implements LocationListener {
+public class GPSTrackerActivity extends Service implements LocationListener {
 
     private final Context mContext;
 
@@ -39,7 +39,7 @@ public class GPSTracker extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public GPSTracker(Context context) {
+    public GPSTrackerActivity(Context context) {
         this.mContext = context;
         getLocation();
     }
@@ -110,7 +110,7 @@ public class GPSTracker extends Service implements LocationListener {
      * */
     public void stopUsingGPS(){
         if(locationManager != null){
-            locationManager.removeUpdates(GPSTracker.this);
+            locationManager.removeUpdates(GPSTrackerActivity.this);
         }
     }
 

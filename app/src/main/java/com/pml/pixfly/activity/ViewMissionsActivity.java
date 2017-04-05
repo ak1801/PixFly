@@ -1,10 +1,9 @@
-package com.pml.pixfly;
+package com.pml.pixfly.activity;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.pml.pixfly.common.Constants;
+import com.pml.pixfly.util.FileOperationsUtil;
+import com.pml.pixfly.bean.Mission;
 import com.pml.pixfly.R;
 
 public class ViewMissionsActivity extends AppCompatActivity {

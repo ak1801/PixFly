@@ -1,8 +1,10 @@
-package com.pml.pixfly;
+package com.pml.pixfly.util;
 
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.pml.pixfly.common.Constants;
+import com.pml.pixfly.bean.Payload;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;

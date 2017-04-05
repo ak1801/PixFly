@@ -1,4 +1,4 @@
-package com.pml.pixfly;
+package com.pml.pixfly.activity;
 
 import android.content.Intent;
 import android.location.Location;
@@ -23,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.pml.pixfly.R;
 
 public class MyLocationActivity extends FragmentActivity implements GooglePlayServicesClient.ConnectionCallbacks,
         com.google.android.gms.location.LocationListener,

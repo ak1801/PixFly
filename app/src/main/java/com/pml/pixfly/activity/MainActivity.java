@@ -1,4 +1,4 @@
-package com.pml.pixfly;
+package com.pml.pixfly.activity;
 
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -24,6 +24,11 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.google.gson.Gson;
+import com.pml.pixfly.common.Constants;
+import com.pml.pixfly.util.FileOperationsUtil;
+import com.pml.pixfly.bean.Payload;
+import com.pml.pixfly.R;
+import com.pml.pixfly.util.SocketUtil;
 
 import java.net.Socket;
 import java.io.*;
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         displayNav();
+
         //seedFile();
 
         if(displayGpsStatus()) {
@@ -54,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     SocketUtil utilObj = new SocketUtil();
                     /*Context context = getApplicationContext();
                     Intent intent = new Intent(context,DroneActivity.class);
-                    startActivity(intent)*/;
+                    startActivity(intent);*/
                     try {
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);

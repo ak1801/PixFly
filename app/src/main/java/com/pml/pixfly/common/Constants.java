@@ -1,4 +1,4 @@
-package com.pml.pixfly;
+package com.pml.pixfly.common;
 
 /**
  * Created by aksmahaj on 12/3/2016.

@@ -1,4 +1,4 @@
-package com.pml.pixfly;
+package com.pml.pixfly.activity;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -24,20 +24,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.pml.pixfly.common.Constants;
+import com.pml.pixfly.util.FileOperationsUtil;
+import com.pml.pixfly.bean.Mission;
+import com.pml.pixfly.R;
+import com.pml.pixfly.util.SocketUtil;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class DroneActivity extends AppCompatActivity implements LocationListener {
 
     Socket clientSocket;
-    GPSTracker gps;
+    GPSTrackerActivity gps;
     DataOutputStream os = null;
     DataInputStream is = null;
     protected LocationManager locationManager;
@@ -52,7 +57,7 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
 
     @Override
     public void onLocationChanged(Location location) {
-        Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + location.getLatitude() + "\nLong: " + location.getLongitude(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + location.getLatitude() + "\nLong: " + location.getLongitude(), Toast.LENGTH_LONG).show();
         latitude = location.getLatitude();
         longitude = location.getLongitude();
     }
@@ -71,7 +76,6 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
     public void onStatusChanged(String provider, int status, Bundle extras) {
         Log.d("Latitude","status");
     }
-
 
     private void followMeTask(){
         clientSocket = utilObj.getClientSocket();
@@ -126,8 +130,8 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drone_launch);
         utilObj = new SocketUtil();
-        hand = new Handler();
-
+        //hand = new Handler();
+        displayNav();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
@@ -136,18 +140,29 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
             @Override
             public void onClick(View view) {
                 enableFollowMe = true;
+                final Date launch_date = new Date();
+
+                try {
+                    TimeUnit.MILLISECONDS.sleep(8*1000);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                /*Context context = getApplicationContext();
+                CharSequence text = "Task Complete!";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();*/
 
                 hand.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             String request = utilObj.createRequest(Constants.FOLLOW_ME, Constants.MODE.GUIDED, latitude, longitude);
-                            //String mission = Constants.FOLLOW_ME+":"+new Date().toString();
-
                             Mission follow_me = new Mission();
                             follow_me.setMission_name(Constants.FOLLOW_ME);
                             follow_me.setLatitude(latitude);
                             follow_me.setLongitude(longitude);
-                            follow_me.setLaunch_date(new Date().toString());
+                            follow_me.setLaunch_date(launch_date.toString());
 
                             try {
                                 clientSocket = utilObj.getClientSocket();
@@ -161,13 +176,11 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
                                         if (serverResp.equals("200")) {
                                             Context context = getApplicationContext();
                                             CharSequence text = "Task Complete!";
-
-                                            //String gps_coordinates = latitude.toString()+","+longitude.toString();
                                             FileOperationsUtil.writeToFile(getBaseContext(), follow_me.toString(), Constants.MISSIONS, getBaseContext().MODE_APPEND);
 
-                                            int duration = Toast.LENGTH_SHORT;
-                                            Toast toast = Toast.makeText(context, text, duration);
-                                            toast.show();
+                                            //int duration = Toast.LENGTH_SHORT;
+                                            //Toast toast = Toast.makeText(context, text, duration);
+                                            //toast.show();
                                             os.close();
                                             is.close();
                                             clientSocket.close();
@@ -224,7 +237,7 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
             }
         });
 
-        Button btnTracePath = (Button) findViewById(R.id.trace_path);
+       /* Button btnTracePath = (Button) findViewById(R.id.trace_path);
         btnTracePath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -251,7 +264,7 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
                 }
 
             }
-        });
+        });*/
 
         Button btnComeToMe = (Button) findViewById(R.id.cometome);
         btnComeToMe.setOnClickListener(new View.OnClickListener() {
@@ -289,7 +302,7 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
     private void execute(String request) {
 
         if(displayGpsStatus()) {
-            gps = new GPSTracker(DroneActivity.this);
+            gps = new GPSTrackerActivity(DroneActivity.this);
 
             // Check if GPS enabled
             if(gps.canGetLocation()) {
@@ -297,7 +310,7 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
                 //double latitude = gps.getLatitude();
                 //double longitude = gps.getLongitude();
 
-                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                 try {
                     clientSocket = utilObj.getClientSocket();
                     os = new DataOutputStream(clientSocket.getOutputStream());
@@ -312,7 +325,7 @@ public class DroneActivity extends AppCompatActivity implements LocationListener
                              CharSequence text = "Task Complete!";
                              int duration = Toast.LENGTH_SHORT;
                              Toast toast = Toast.makeText(context, text, duration);
-                             toast.show();
+                             //toast.show();
                              os.close();
                              is.close();
                              clientSocket.close();
